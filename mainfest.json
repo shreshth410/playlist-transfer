@@ -1,0 +1,67 @@
+{
+    "name" : "Playlist Transfers",
+    "version" : "0.1.0", 
+    "description" : "Helps you transfer all playlists from one Platform to another.",
+    "permissions" : ["storage", "activeTab", "identity", "scripting", "webRequest", "tabs"],
+    "host_permissions" : ["https://open.spotify.com/*", "https://api.spotify.com/*", "https://accounts.spotify.com/*",
+    "https://music.youtube.com/*", 
+    "https://music.apple.com/*", "https://api.music.apple.com/*",
+    "https://music.amazon.com/*", "https://music.amazon.co.uk/*", "https://music.amazon.de/*", "https://music.amazon.ca/*"],
+
+    "background" : {
+        "service_worker" : "background.js"
+    },
+
+    "content_scripts" : [
+        {
+            "matches" : ["https://open.spotify.com/*"],
+            "js" : "spotify_content.js"
+        },
+        {
+            "matches" : ["https://music.youtube.com/*"],
+            "js" : "youtube_content.js"
+        },
+        {
+            "matches" : ["https://music.apple.com/*"],
+            "js" : "apple_content.js"
+        },
+        {
+            "matches": ["https://music.amazon.com/*", "https://music.amazon.co.uk/*", 
+                        "https://music.amazon.de/*", "https://music.amazon.ca/*"],
+            "js": ["amazon_content.js"]
+        }
+    ],
+
+    "web_accessible_resources" : [
+        {
+            "resources" : [
+                "assets/spotify.png",
+                "assets/amazon_music.png",
+                "assets/apple_music.png", 
+                "assets/youtube_music.png",
+                "assets/transfer.png",
+                "assets/extension_icon.png"
+            ],
+            "matches" : [
+                "https://open.spotify.com/*",
+                "https://music.apple.com/*", 
+                "https://music.youtube.com/*",
+                "https://music.amazon.com/*",
+                "https://music.amazon.co.uk/*",
+                "https://music.amazon.de/*",
+                "https://music.amazon.ca/*"
+            ]
+        }
+        
+    ],
+    "action" : {
+        "default_icon" : {
+            "16" : "assets/extension_icon.png",
+            "24" : "assets/extension_icon.png",
+            "32" : "assets/extension_icon.png"
+        },
+        "default_title" : "Playlist Transfers",
+        "deafault_popup" : "popup.html"        
+    },
+    "manifest_version" : 3
+}
