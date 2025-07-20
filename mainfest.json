@@ -6,7 +6,16 @@
     "host_permissions" : ["https://open.spotify.com/*", "https://api.spotify.com/*", "https://accounts.spotify.com/*",
     "https://music.youtube.com/*", 
     "https://music.apple.com/*", "https://api.music.apple.com/*",
-    "https://music.amazon.com/*", "https://music.amazon.co.uk/*", "https://music.amazon.de/*", "https://music.amazon.ca/*"],
+    "https://music.amazon.com/*",
+    "https://music.amazon.co.uk/*",
+    "https://music.amazon.de/*",
+    "https://music.amazon.ca/*",
+    "https://music.amazon.fr/*",
+    "https://music.amazon.it/*",
+    "https://music.amazon.es/*",
+    "https://music.amazon.co.jp/*",
+    "https://music.amazon.in/*",
+    "https://api.amazonalexa.com/*"],
 
     "background" : {
         "service_worker" : "background.js"
@@ -26,8 +35,15 @@
             "js" : "apple_content.js"
         },
         {
-            "matches": ["https://music.amazon.com/*", "https://music.amazon.co.uk/*", 
-                        "https://music.amazon.de/*", "https://music.amazon.ca/*"],
+            "matches": ["https://music.amazon.com/*",
+        "https://music.amazon.co.uk/*",
+        "https://music.amazon.de/*",
+        "https://music.amazon.ca/*",
+        "https://music.amazon.fr/*",
+        "https://music.amazon.it/*",
+        "https://music.amazon.es/*",
+        "https://music.amazon.co.jp/*",
+        "https://music.amazon.in/*"],
             "js": ["amazon_content.js"]
         }
     ],
@@ -35,12 +51,12 @@
     "web_accessible_resources" : [
         {
             "resources" : [
-                "assets/spotify.png",
-                "assets/amazon_music.png",
-                "assets/apple_music.png", 
-                "assets/youtube_music.png",
-                "assets/transfer.png",
-                "assets/extension_icon.png"
+                "images/spotify.png",
+                "images/amazon_music.png",
+                "images/apple_music.png", 
+                "images/youtube_music.png",
+                "images/transfer.png",
+                "images/extension_icon.png"
             ],
             "matches" : [
                 "https://open.spotify.com/*",
@@ -56,9 +72,9 @@
     ],
     "action" : {
         "default_icon" : {
-            "16" : "assets/extension_icon.png",
-            "24" : "assets/extension_icon.png",
-            "32" : "assets/extension_icon.png"
+            "16" : "images/extension_icon.png",
+            "24" : "images/extension_icon.png",
+            "32" : "images/extension_icon.png"
         },
         "default_title" : "Playlist Transfers",
         "deafault_popup" : "popup.html"        

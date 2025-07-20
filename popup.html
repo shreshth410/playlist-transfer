@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playlist Transfer</title>
+    <link rel="stylesheet" href="styles/popup.css">
+</head>
+<body>
+    <div class="popup-container">
+        <!-- Header -->
+        <header class="popup-header">
+            <div class="header-content">
+                <img src="images/icon-48.png" alt="Playlist Transfer" class="header-icon">
+                <h1 class="header-title">Playlist Transfer</h1>
+            </div>
+            <button id="settingsBtn" class="settings-btn" title="Settings">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8 12C10.2091 12 12 10.2091 12 8C12 5.79086 10.2091 4 8 4C5.79086 4 4 5.79086 4 8C4 10.2091 5.79086 12 8 12Z"/>
+                    <path d="M13.4142 2.58579C13.0237 2.19526 12.3905 2.19526 12 2.58579L10.8284 3.75736C10.4379 4.14788 10.4379 4.78105 10.8284 5.17157L12 6.34315C12.3905 6.73367 13.0237 6.73367 13.4142 6.34315L14.5858 5.17157C14.9763 4.78105 14.9763 4.14788 14.5858 3.75736L13.4142 2.58579Z"/>
+                </svg>
+            </button>
+        </header>
+
+        <!-- Main Content -->
+        <main class="popup-main">
+            <!-- Authentication Status -->
+            <section class="auth-section">
+                <h2 class="section-title">Platform Authentication</h2>
+                <div class="auth-platforms">
+                    <div class="platform-auth" data-platform="spotify">
+                        <div class="platform-info">
+                            <img src="images/spotify-icon.png" alt="Spotify" class="platform-icon">
+                            <span class="platform-name">Spotify</span>
+                        </div>
+                        <div class="auth-status">
+                            <span class="status-indicator" id="spotify-status"></span>
+                            <button class="auth-btn" id="spotify-auth">Connect</button>
+                        </div>
+                    </div>
+                    
+                    <div class="platform-auth" data-platform="apple">
+                        <div class="platform-info">
+                            <img src="images/apple-music-icon.png" alt="Apple Music" class="platform-icon">
+                            <span class="platform-name">Apple Music</span>
+                        </div>
+                        <div class="auth-status">
+                            <span class="status-indicator" id="apple-status"></span>
+                            <button class="auth-btn" id="apple-auth">Connect</button>
+                        </div>
+                    </div>
+                    
+                    <div class="platform-auth" data-platform="youtube">
+                        <div class="platform-info">
+                            <img src="images/youtube-music-icon.png" alt="YouTube Music" class="platform-icon">
+                            <span class="platform-name">YouTube Music</span>
+                        </div>
+                        <div class="auth-status">
+                            <span class="status-indicator" id="youtube-status"></span>
+                            <button class="auth-btn" id="youtube-auth">Connect</button>
+                        </div>
+                    </div>
+                    
+                    <div class="platform-auth" data-platform="amazon">
+                        <div class="platform-info">
+                            <img src="images/amazon-music-icon.png" alt="Amazon Music" class="platform-icon">
+                            <span class="platform-name">Amazon Music</span>
+                        </div>
+                        <div class="auth-status">
+                            <span class="status-indicator" id="amazon-status"></span>
+                            <button class="auth-btn" id="amazon-auth">Connect</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Transfer Section -->
+            <section class="transfer-section">
+                <h2 class="section-title">Quick Transfer</h2>
+                <div class="transfer-form">
+                    <div class="form-group">
+                        <label for="sourcePlatform">From:</label>
+                        <select id="sourcePlatform" class="platform-select">
+                            <option value="">Select source platform</option>
+                            <option value="spotify">Spotify</option>
+                            <option value="apple">Apple Music</option>
+                            <option value="youtube">YouTube Music</option>
+                            <option value="amazon">Amazon Music</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="targetPlatform">To:</label>
+                        <select id="targetPlatform" class="platform-select">
+                            <option value="">Select target platform</option>
+                            <option value="spotify">Spotify</option>
+                            <option value="apple">Apple Music</option>
+                            <option value="youtube">YouTube Music</option>
+                            <option value="amazon">Amazon Music</option>
+                        </select>
+                    </div>
+                    
+                    <button id="startTransferBtn" class="transfer-btn" disabled>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 0L6.59 1.41L12.17 7H0V9H12.17L6.59 14.59L8 16L16 8L8 0Z"/>
+                        </svg>
+                        Start Transfer
+                    </button>
+                </div>
+            </section>
+
+            <!-- Transfer Progress -->
+            <section class="progress-section" id="progressSection" style="display: none;">
+                <h2 class="section-title">Transfer Progress</h2>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="progressPercent">0%</span>
+                        <span id="progressMessage">Ready to start</span>
+                    </div>
+                </div>
+                <button id="cancelTransferBtn" class="cancel-btn">Cancel Transfer</button>
+            </section>
+
+            <!-- Recent Transfers -->
+            <section class="history-section">
+                <h2 class="section-title">Recent Transfers</h2>
+                <div class="transfer-history" id="transferHistory">
+                    <div class="no-history">No recent transfers</div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Settings Modal -->
+        <div class="modal-overlay" id="settingsModal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Settings</h2>
+                    <button class="modal-close" id="closeSettingsBtn">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M12.854 4.854a.5.5 0 0 0-.708-.708L8 8.293 3.854 4.146a.5.5 0 1 0-.708.708L7.293 9l-4.147 4.146a.5.5 0 0 0 .708.708L8 9.707l4.146 4.147a.5.5 0 0 0 .708-.708L8.707 9l4.147-4.146z"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="modal-body">
+                    <!-- API Keys Section -->
+                    <div class="settings-section">
+                        <h3>API Configuration</h3>
+                        <div class="api-keys">
+                            <div class="api-key-group">
+                                <label for="spotifyClientId">Spotify Client ID:</label>
+                                <input type="text" id="spotifyClientId" class="api-input" placeholder="Enter Spotify Client ID">
+                            </div>
+                            <div class="api-key-group">
+                                <label for="spotifyClientSecret">Spotify Client Secret:</label>
+                                <input type="password" id="spotifyClientSecret" class="api-input" placeholder="Enter Spotify Client Secret">
+                            </div>
+                            <div class="api-key-group">
+                                <label for="youtubeApiKey">YouTube API Key:</label>
+                                <input type="text" id="youtubeApiKey" class="api-input" placeholder="Enter YouTube Data API Key">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transfer Settings -->
+                    <div class="settings-section">
+                        <h3>Transfer Settings</h3>
+                        <div class="setting-item">
+                            <label for="conflictResolution">Conflict Resolution:</label>
+                            <select id="conflictResolution" class="setting-select">
+                                <option value="skip">Skip duplicates</option>
+                                <option value="replace">Replace existing</option>
+                                <option value="ask">Ask each time</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label for="batchSize">Batch Size:</label>
+                            <input type="number" id="batchSize" class="setting-input" min="10" max="100" value="50">
+                        </div>
+                        <div class="setting-item">
+                            <label for="retryAttempts">Retry Attempts:</label>
+                            <input type="number" id="retryAttempts" class="setting-input" min="1" max="10" value="3">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button id="saveSettingsBtn" class="save-btn">Save Settings</button>
+                    <button id="resetSettingsBtn" class="reset-btn">Reset to Defaults</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Loading...</div>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
+
