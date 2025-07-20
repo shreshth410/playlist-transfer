@@ -62,27 +62,6 @@ A Chrome extension that enables seamless playlist transfers between major music 
 └── styles/               # CSS styling
 ```
 
-## Permissions
-
-This extension requires the following permissions:
-- `storage` - Save user preferences and temporary data
-- `activeTab` - Interact with current music platform tabs
-- `identity` - Handle OAuth authentication flows
-- `scripting` - Inject content scripts into music platform pages
-- `webRequest` - Monitor API calls for transfer coordination
-
-## Host Permissions
-
-Access to music platform domains:
-- `https://open.spotify.com/*`
-- `https://api.spotify.com/*`
-- `https://music.apple.com/*`
-- `https://api.music.apple.com/*`
-- `https://music.youtube.com/*`
-- `https://www.googleapis.com/*`
-- `https://music.amazon.com/*` (+ regional variants)
-- `https://api.amazonalexa.com/*`
-
 ## Known Limitations
 
 - **API Rate Limits**: Large playlists may take time due to platform restrictions
