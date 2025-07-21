@@ -24,15 +24,15 @@
     "content_scripts" : [
         {
             "matches" : ["https://open.spotify.com/*"],
-            "js" : "spotify_content.js"
+            "js" : ["spotify_content.js"]
         },
         {
             "matches" : ["https://music.youtube.com/*"],
-            "js" : "youtube_content.js"
+            "js" : ["youtube_content.js"]
         },
         {
             "matches" : ["https://music.apple.com/*"],
-            "js" : "apple_content.js"
+            "js" : ["apple_content.js"]
         },
         {
             "matches": ["https://music.amazon.com/*",
@@ -77,7 +77,8 @@
             "32" : "images/extension_icon.png"
         },
         "default_title" : "Playlist Transfers",
-        "deafault_popup" : "popup.html"        
+        "default_popup" : "popup.html"        
     },
     "manifest_version" : 3
 }
+
