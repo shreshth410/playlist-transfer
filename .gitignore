@@ -1,0 +1,12 @@
+# Ignore configuration files with sensitive data
+config.js
+
+# Ignore build files
+build/
+
+# Ignore Chrome extension files
+*.crx
+*.pem
+
+# Ignore node_modules
+node_modules

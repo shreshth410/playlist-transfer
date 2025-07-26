@@ -146,22 +146,22 @@
                 </div>
                 
                 <div class="modal-body">
-                    <!-- API Keys Section -->
+                    <!-- API Status Section -->
                     <div class="settings-section">
-                        <h3>API Configuration</h3>
-                        <div class="api-keys">
-                            <div class="api-key-group">
-                                <label for="spotifyClientId">Spotify Client ID: "b57fc1f3d096426f87bcdaffe7309753"</label>
-                                <input type="text" id="spotifyClientId" class="api-input" placeholder="Enter Spotify Client ID">
+                        <h3>API Configuration Status</h3>
+                        <div class="api-status">
+                            <div class="status-item">
+                                <span class="status-label">Configuration:</span>
+                                <span class="status-value" id="configStatus">Loading...</span>
                             </div>
-                            <div class="api-key-group">
-                                <label for="spotifyClientSecret">Spotify Client Secret: 'ccd586db1f18460daf41aa5740f9656d' </label>
-                                <input type="password" id="spotifyClientSecret" class="api-input" placeholder="Enter Spotify Client Secret">
+                            <div class="status-item">
+                                <span class="status-label">Platforms Available:</span>
+                                <span class="status-value" id="platformsAvailable">Loading...</span>
                             </div>
-                            <div class="api-key-group">
-                                <label for="youtubeApiKey">YouTube API Key: "717232365624-68o979tfkmnja4iq7t20qc3fb754e1hm.apps.googleusercontent.com"</label>
-                                <input type="text" id="youtubeApiKey" class="api-input" placeholder="Enter YouTube Data API Key">
-                            </div>
+                            <p class="config-note">
+                                <strong>Note:</strong> API keys are configured via config.js file. 
+                                Please ensure your config.js file contains valid API credentials for the platforms you want to use.
+                            </p>
                         </div>
                     </div>
 

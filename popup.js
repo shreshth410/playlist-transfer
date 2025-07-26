@@ -43,10 +43,9 @@
         saveSettingsBtn: document.getElementById('saveSettingsBtn'),
         resetSettingsBtn: document.getElementById('resetSettingsBtn'),
         
-        // API Keys
-        spotifyClientId: document.getElementById('spotifyClientId'),
-        spotifyClientSecret: document.getElementById('spotifyClientSecret'),
-        youtubeApiKey: document.getElementById('youtubeApiKey'),
+        // API Status
+        configStatus: document.getElementById('configStatus'),
+        platformsAvailable: document.getElementById('platformsAvailable'),
         
         // Settings
         conflictResolution: document.getElementById('conflictResolution'),
@@ -69,6 +68,7 @@
         
         // Load initial data
         loadAuthStatus();
+        loadApiConfigStatus();
         loadSettings();
         loadTransferHistory();
         
@@ -206,31 +206,42 @@
     
     // Handle authentication
     async function handleAuthentication(platform) {
+        const button = elements.authButtons[platform];
+        const originalText = button.textContent;
+        
         try {
-            const button = elements.authButtons[platform];
-            const originalText = button.textContent;
+            // Prevent multiple simultaneous auth attempts
+            if (button.disabled) {
+                return;
+            }
             
             button.textContent = 'Connecting...';
             button.disabled = true;
             
-            const response = await sendMessage({ 
+            // Add timeout to prevent infinite waiting
+            const authPromise = sendMessage({ 
                 action: 'authenticate', 
                 platform 
             });
             
-            if (response.success) {
+            const timeoutPromise = new Promise((_, reject) => {
+                setTimeout(() => reject(new Error('Authentication timeout')), 60000); // 60 second timeout
+            });
+            
+            const response = await Promise.race([authPromise, timeoutPromise]);
+            
+            if (response && response.success) {
                 showNotification(`Successfully connected to ${getPlatformDisplayName(platform)}`, 'success');
                 await loadAuthStatus(); // Refresh auth status
             } else {
-                throw new Error(response.error || 'Authentication failed');
+                throw new Error(response?.error || 'Authentication failed');
             }
             
         } catch (error) {
             console.error('Authentication error:', error);
             showNotification(`Failed to connect to ${getPlatformDisplayName(platform)}: ${error.message}`, 'error');
-            
-            // Reset button
-            const button = elements.authButtons[platform];
+        } finally {
+            // Always reset button state
             button.textContent = 'Connect';
             button.disabled = false;
         }
@@ -434,6 +445,77 @@
         elements.settingsModal.style.display = 'none';
     }
     
+    // Load and display API configuration status
+    async function loadApiConfigStatus() {
+        try {
+            const result = await chrome.storage.local.get(['apiKeys']);
+            const apiKeys = result.apiKeys || {};
+            
+            // Check which platforms have API keys configured
+            const configuredPlatforms = [];
+            const platforms = ['spotify', 'youtube', 'apple', 'amazon'];
+            
+            platforms.forEach(platform => {
+                if (apiKeys[platform] && Object.keys(apiKeys[platform]).length > 0) {
+                    // Check if the platform has required keys
+                    const keys = apiKeys[platform];
+                    let hasRequiredKeys = false;
+                    
+                    switch (platform) {
+                        case 'spotify':
+                            hasRequiredKeys = keys.clientId && keys.clientSecret;
+                            break;
+                        case 'youtube':
+                            hasRequiredKeys = keys.clientId && keys.apiKey;
+                            break;
+                        case 'apple':
+                            hasRequiredKeys = keys.teamId && keys.keyId && keys.privateKey;
+                            break;
+                        case 'amazon':
+                            hasRequiredKeys = keys.clientId && keys.clientSecret;
+                            break;
+                    }
+                    
+                    if (hasRequiredKeys) {
+                        configuredPlatforms.push(platform.charAt(0).toUpperCase() + platform.slice(1));
+                    }
+                }
+            });
+            
+            // Update UI elements
+            if (elements.configStatus) {
+                if (configuredPlatforms.length > 0) {
+                    elements.configStatus.textContent = 'Configured';
+                    elements.configStatus.className = 'status-value status-success';
+                } else {
+                    elements.configStatus.textContent = 'Not Configured';
+                    elements.configStatus.className = 'status-value status-error';
+                }
+            }
+            
+            if (elements.platformsAvailable) {
+                if (configuredPlatforms.length > 0) {
+                    elements.platformsAvailable.textContent = configuredPlatforms.join(', ');
+                    elements.platformsAvailable.className = 'status-value status-success';
+                } else {
+                    elements.platformsAvailable.textContent = 'None';
+                    elements.platformsAvailable.className = 'status-value status-error';
+                }
+            }
+            
+        } catch (error) {
+            console.error('Error loading API config status:', error);
+            if (elements.configStatus) {
+                elements.configStatus.textContent = 'Error';
+                elements.configStatus.className = 'status-value status-error';
+            }
+            if (elements.platformsAvailable) {
+                elements.platformsAvailable.textContent = 'Error loading';
+                elements.platformsAvailable.className = 'status-value status-error';
+            }
+        }
+    }
+    
     async function loadSettings() {
         try {
             const response = await sendMessage({ action: 'getSettings' });
@@ -446,14 +528,8 @@
     }
     
     function loadSettingsUI() {
-        // Load API keys
-        chrome.storage.local.get(['apiKeys']).then(result => {
-            const apiKeys = result.apiKeys || {};
-            
-            elements.spotifyClientId.value = apiKeys.spotify?.clientId || '';
-            elements.spotifyClientSecret.value = apiKeys.spotify?.clientSecret || '';
-            elements.youtubeApiKey.value = apiKeys.youtube?.apiKey || '';
-        });
+        // Load API configuration status
+        loadApiConfigStatus();
         
         // Load settings
         elements.conflictResolution.value = settings.conflictResolution || 'skip';
@@ -463,20 +539,7 @@
     
     async function saveSettings() {
         try {
-            // Save API keys
-            const apiKeys = {
-                spotify: {
-                    clientId: elements.spotifyClientId.value.trim(),
-                    clientSecret: elements.spotifyClientSecret.value.trim()
-                },
-                youtube: {
-                    apiKey: elements.youtubeApiKey.value.trim()
-                }
-            };
-            
-            await sendMessage({ action: 'saveApiKeys', apiKeys });
-            
-            // Save settings
+            // Save settings (API keys are handled via config.js)
             const newSettings = {
                 conflictResolution: elements.conflictResolution.value,
                 batchSize: parseInt(elements.batchSize.value),

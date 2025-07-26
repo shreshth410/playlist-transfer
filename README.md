@@ -18,25 +18,13 @@ A Chrome extension that enables seamless playlist transfers between major music 
 - **Real-Time Progress**: Visual feedback during transfer operations
 - **Conflict Resolution**: Handle duplicate tracks and unavailable songs intelligently
 
-## Installation
-
-1. Clone this repository or download the source code
-2. Open Chrome and navigate to `chrome://extensions/`
-3. Enable "Developer mode" in the top right corner
-4. Click "Load unpacked" and select the extension directory
-5. The extension icon will appear in your Chrome toolbar
-
 ## Setup
 
-1. **API Keys Required**: You'll need to register developer accounts and obtain API keys for:
-   - Spotify Web API
-   - Apple Music API (MusicKit)
-   - YouTube Data API v3
-   - Amazon Music API (if available)
-
-2. **Configuration**: Add your API credentials to the extension settings
-
-3. **Authentication**: Sign in to each music platform you want to use for transfers
+1.  Clone this repository.
+2.  **Create a `config.js` file** in the root directory of the project.
+3.  Add your API credentials to `config.js` by following the structure in `config.example.js`.
+4.  Open Chrome and navigate to `chrome://extensions/`.
+5.  Enable "Developer mode" and click "Load unpacked" to load the extension.
 
 ## Usage
 
@@ -52,12 +40,11 @@ A Chrome extension that enables seamless playlist transfers between major music 
 ├── manifest.json           # Extension configuration
 ├── background.js           # Service worker for API calls
 ├── popup.html             # Extension popup interface
-├── popup.js               # Popup functionality
-├── content_scripts/       # Platform-specific scripts
-│   ├── spotify_content.js
-│   ├── apple_content.js
-│   ├── youtube_content.js
-│   └── amazon_content.js
+├── popup.js               # Popup functionality       
+├── spotify_content.js     # Spotify content script
+├── apple_content.js       # Apple Music content script
+├── youtube_content.js     # YouTube Music content script
+├── amazon_content.js      # Amazon Music content script
 ├── images/                # Extension icons and assets
 └── styles/               # CSS styling
 ```

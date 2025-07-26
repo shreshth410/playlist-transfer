@@ -1,5 +1,6 @@
 // Playlist Transfer Chrome Extension - Background Service Worker
 // Handles API calls, authentication, and cross-platform playlist transfers
+importScripts('config.js');
 
 // Extension state management
 let transferState = {
@@ -41,9 +42,10 @@ const PLATFORMS = {
 chrome.runtime.onInstalled.addListener((details) => {
   console.log('Playlist Transfer Extension installed:', details.reason);
   
-  // Initialize storage
+  // Initialize storage with API keys from config
+  initializeApiKeys();
+  
   chrome.storage.local.set({
-    apiKeys: {},
     authTokens: {},
     transferHistory: [],
     settings: {
@@ -53,6 +55,26 @@ chrome.runtime.onInstalled.addListener((details) => {
     }
   });
 });
+
+// Initialize API keys from config.js
+async function initializeApiKeys() {
+  try {
+    // Check if API_KEYS is available from config.js
+    if (typeof API_KEYS !== 'undefined') {
+      console.log('Loading API keys from config.js');
+      await chrome.storage.local.set({ apiKeys: API_KEYS });
+      console.log('API keys loaded successfully');
+    } else {
+      console.warn('API_KEYS not found in config.js. Please ensure config.js is properly configured.');
+      // Initialize with empty object if config is missing
+      await chrome.storage.local.set({ apiKeys: {} });
+    }
+  } catch (error) {
+    console.error('Error loading API keys from config:', error);
+    // Initialize with empty object on error
+    await chrome.storage.local.set({ apiKeys: {} });
+  }
+}
 
 // Message handling from popup and content scripts
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -138,15 +160,24 @@ async function handleAuthentication(platform, sendResponse) {
       throw new Error(`API key not configured for ${platform}`);
     }
     
-    // Launch OAuth flow
+    // Build OAuth URL
     const authUrl = buildAuthUrl(platform, apiKeys[platform]);
+    console.log(`Starting auth flow for ${platform} with URL: ${authUrl}`);
     
+    // Use chrome.identity.launchWebAuthFlow with proper error handling
     chrome.identity.launchWebAuthFlow({
       url: authUrl,
       interactive: true
     }, async (redirectUrl) => {
       if (chrome.runtime.lastError) {
-        sendResponse({ error: chrome.runtime.lastError.message });
+        console.error('Chrome identity error:', chrome.runtime.lastError);
+        sendResponse({ error: `Authentication failed: ${chrome.runtime.lastError.message}` });
+        return;
+      }
+      
+      if (!redirectUrl) {
+        console.error('No redirect URL received');
+        sendResponse({ error: 'Authentication was cancelled or failed' });
         return;
       }
       
@@ -155,8 +186,8 @@ async function handleAuthentication(platform, sendResponse) {
         await saveAuthToken(platform, token);
         sendResponse({ success: true, platform });
       } catch (error) {
-        console.error('Auth flow error:', error);
-        sendResponse({ error: error.message });
+        console.error('Token extraction error:', error);
+        sendResponse({ error: `Failed to process authentication: ${error.message}` });
       }
     });
     
@@ -165,6 +196,8 @@ async function handleAuthentication(platform, sendResponse) {
     sendResponse({ error: error.message });
   }
 }
+
+
 
 // Get playlists from platform
 async function handleGetPlaylists(platform, sendResponse) {
@@ -251,14 +284,21 @@ async function handleUpdateSettings(settings, sendResponse) {
 // Build OAuth URL for platform
 function buildAuthUrl(platform, apiKey) {
   const config = PLATFORMS[platform];
+  const redirectUri = chrome.identity.getRedirectURL();
+  
+  console.log(`Building auth URL for ${platform}, redirect URI: ${redirectUri}`);
+  
   const params = new URLSearchParams({
     client_id: apiKey.clientId,
     response_type: 'code',
     scope: config.scopes,
-    redirect_uri: chrome.identity.getRedirectURL()
+    redirect_uri: redirectUri
   });
   
-  return `${config.authUrl}?${params.toString()}`;
+  const authUrl = `${config.authUrl}?${params.toString()}`;
+  console.log(`Auth URL: ${authUrl}`);
+  
+  return authUrl;
 }
 
 // Extract token from OAuth redirect URL
@@ -608,4 +648,3 @@ class RateLimiter {
 const rateLimiter = new RateLimiter(10);
 
 console.log('Playlist Transfer Extension background script loaded');
-

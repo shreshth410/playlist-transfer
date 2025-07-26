@@ -16,6 +16,9 @@ body {
     width: 380px;
     min-height: 500px;
     overflow-x: hidden;
+    border-radius: 30px;
+    padding: 0;
+    margin: 0;
 }
 
 /* Popup Container */
@@ -24,8 +27,8 @@ body {
     flex-direction: column;
     min-height: 500px;
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     overflow: hidden;
 }
 
@@ -38,6 +41,7 @@ body {
     align-items: center;
     justify-content: space-between;
     position: relative;
+    border-radius: 30px 30px 0 0;
 }
 
 .header-content {
@@ -49,7 +53,7 @@ body {
 .header-icon {
     width: 24px;
     height: 24px;
-    border-radius: 4px;
+    border-radius: 12px;
 }
 
 .header-title {
@@ -61,7 +65,7 @@ body {
 .settings-btn {
     background: rgba(255, 255, 255, 0.2);
     border: none;
-    border-radius: 6px;
+    border-radius: 20px;
     padding: 8px;
     color: white;
     cursor: pointer;
@@ -101,13 +105,13 @@ body {
     width: 3px;
     height: 16px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 2px;
+    border-radius: 8px;
 }
 
 /* Authentication Section */
 .auth-section {
     background: #f8f9fa;
-    border-radius: 8px;
+    border-radius: 24px;
     padding: 16px;
     border: 1px solid #e9ecef;
 }
@@ -124,7 +128,7 @@ body {
     justify-content: space-between;
     padding: 12px;
     background: white;
-    border-radius: 6px;
+    border-radius: 20px;
     border: 1px solid #dee2e6;
     transition: all 0.2s ease;
 }
@@ -143,7 +147,7 @@ body {
 .platform-icon {
     width: 20px;
     height: 20px;
-    border-radius: 4px;
+    border-radius: 10px;
 }
 
 .platform-name {
@@ -178,7 +182,7 @@ body {
     background: #667eea;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 18px;
     padding: 6px 12px;
     font-size: 12px;
     font-weight: 500;
@@ -209,7 +213,7 @@ body {
 /* Transfer Section */
 .transfer-section {
     background: #f8f9fa;
-    border-radius: 8px;
+    border-radius: 24px;
     padding: 16px;
     border: 1px solid #e9ecef;
 }
@@ -235,7 +239,7 @@ body {
 .platform-select {
     padding: 10px 12px;
     border: 1px solid #ced4da;
-    border-radius: 6px;
+    border-radius: 20px;
     background: white;
     font-size: 14px;
     color: #495057;
@@ -252,7 +256,7 @@ body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 20px;
     padding: 12px 16px;
     font-size: 14px;
     font-weight: 600;
@@ -280,7 +284,7 @@ body {
 /* Progress Section */
 .progress-section {
     background: #e3f2fd;
-    border-radius: 8px;
+    border-radius: 16px;
     padding: 16px;
     border: 1px solid #bbdefb;
 }
@@ -293,7 +297,7 @@ body {
     width: 100%;
     height: 8px;
     background: #e0e0e0;
-    border-radius: 4px;
+    border-radius: 8px;
     overflow: hidden;
     margin-bottom: 8px;
 }
@@ -301,7 +305,7 @@ body {
 .progress-fill {
     height: 100%;
     background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-    border-radius: 4px;
+    border-radius: 8px;
     transition: width 0.3s ease;
     width: 0%;
 }
@@ -318,7 +322,7 @@ body {
     background: #dc3545;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 12px;
     padding: 8px 16px;
     font-size: 12px;
     font-weight: 500;
@@ -334,7 +338,7 @@ body {
 /* History Section */
 .history-section {
     background: #f8f9fa;
-    border-radius: 8px;
+    border-radius: 16px;
     padding: 16px;
     border: 1px solid #e9ecef;
 }
@@ -356,7 +360,7 @@ body {
 
 .history-item {
     background: white;
-    border-radius: 6px;
+    border-radius: 15px;
     padding: 12px;
     border: 1px solid #dee2e6;
     transition: all 0.2s ease;
@@ -418,7 +422,7 @@ body {
 
 .modal-content {
     background: white;
-    border-radius: 8px;
+    border-radius: 20px;
     width: 90%;
     max-width: 500px;
     max-height: 80vh;
@@ -460,7 +464,7 @@ body {
     font-size: 16px;
     cursor: pointer;
     padding: 4px;
-    border-radius: 4px;
+    border-radius: 12px;
     color: #6c757d;
     transition: all 0.2s ease;
 }
@@ -518,7 +522,7 @@ body {
 .api-input {
     padding: 10px 12px;
     border: 1px solid #ced4da;
-    border-radius: 6px;
+    border-radius: 15px;
     font-size: 14px;
     transition: all 0.2s ease;
 }
@@ -546,7 +550,7 @@ body {
 .setting-input {
     padding: 8px 12px;
     border: 1px solid #ced4da;
-    border-radius: 6px;
+    border-radius: 15px;
     font-size: 14px;
     transition: all 0.2s ease;
 }
@@ -558,11 +562,65 @@ body {
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
+/* API Status Styles */
+.api-status {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.status-item:last-child {
+    border-bottom: none;
+}
+
+.status-label {
+    font-weight: 500;
+    color: #555;
+}
+
+.status-value {
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.status-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.config-note {
+    background-color: #e7f3ff;
+    border: 1px solid #b3d9ff;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 12px;
+    color: #0066cc;
+    line-height: 1.4;
+    margin-top: 8px;
+}
+
 .save-btn {
     background: #28a745;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 15px;
     padding: 10px 20px;
     font-size: 14px;
     font-weight: 500;
@@ -579,7 +637,7 @@ body {
     background: #6c757d;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 15px;
     padding: 10px 20px;
     font-size: 14px;
     font-weight: 500;
@@ -636,12 +694,12 @@ body {
 
 .transfer-history::-webkit-scrollbar-track {
     background: #f1f1f1;
-    border-radius: 3px;
+    border-radius: 8px;
 }
 
 .transfer-history::-webkit-scrollbar-thumb {
     background: #c1c1c1;
-    border-radius: 3px;
+    border-radius: 8px;
 }
 
 .transfer-history::-webkit-scrollbar-thumb:hover {

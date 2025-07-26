@@ -1,41 +1,25 @@
 {
-    "name" : "Playlist Transfers",
-    "version" : "0.1.0", 
-    "description" : "Helps you transfer all playlists from one Platform to another.",
-    "permissions" : ["storage", "activeTab", "identity", "scripting", "webRequest", "tabs"],
-    "host_permissions" : ["https://open.spotify.com/*", "https://api.spotify.com/*", "https://accounts.spotify.com/*",
-    "https://music.youtube.com/*", 
-    "https://music.apple.com/*", "https://api.music.apple.com/*",
-    "https://music.amazon.com/*",
-    "https://music.amazon.co.uk/*",
-    "https://music.amazon.de/*",
-    "https://music.amazon.ca/*",
-    "https://music.amazon.fr/*",
-    "https://music.amazon.it/*",
-    "https://music.amazon.es/*",
-    "https://music.amazon.co.jp/*",
-    "https://music.amazon.in/*",
-    "https://api.amazonalexa.com/*"],
-
-    "background" : {
-        "service_worker" : "background.js"
+    "name": "Playlist Transfers",
+    "version": "0.1.0", 
+    "description": "Helps you transfer all playlists from one Platform to another.",
+    "permissions": ["storage", "activeTab", "identity", "scripting", "webRequest", "tabs"],
+    "oauth2": {
+        "client_id": "717232365624-68o979tfkmnja4iq7t20qc3fb754e1hm.apps.googleusercontent.com",
+        "scopes": [
+            "https://www.googleapis.com/auth/youtube",
+            "openid",
+            "email",
+            "profile"
+        ]
     },
-
-    "content_scripts" : [
-        {
-            "matches" : ["https://open.spotify.com/*"],
-            "js" : ["spotify_content.js"]
-        },
-        {
-            "matches" : ["https://music.youtube.com/*"],
-            "js" : ["youtube_content.js"]
-        },
-        {
-            "matches" : ["https://music.apple.com/*"],
-            "js" : ["apple_content.js"]
-        },
-        {
-            "matches": ["https://music.amazon.com/*",
+    "host_permissions": [
+        "https://open.spotify.com/*", 
+        "https://api.spotify.com/*", 
+        "https://accounts.spotify.com/*",
+        "https://music.youtube.com/*", 
+        "https://music.apple.com/*", 
+        "https://api.music.apple.com/*",
+        "https://music.amazon.com/*",
         "https://music.amazon.co.uk/*",
         "https://music.amazon.de/*",
         "https://music.amazon.ca/*",
@@ -43,14 +27,46 @@
         "https://music.amazon.it/*",
         "https://music.amazon.es/*",
         "https://music.amazon.co.jp/*",
-        "https://music.amazon.in/*"],
+        "https://music.amazon.in/*",
+        "https://api.amazonalexa.com/*",
+        "https://www.googleapis.com/*",
+        "https://accounts.google.com/*",
+        "https://oauth2.googleapis.com/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://open.spotify.com/*"],
+            "js": ["spotify_content.js"]
+        },
+        {
+            "matches": ["https://music.youtube.com/*"],
+            "js": ["youtube_content.js"]
+        },
+        {
+            "matches": ["https://music.apple.com/*"],
+            "js": ["apple_content.js"]
+        },
+        {
+            "matches": [
+                "https://music.amazon.com/*",
+                "https://music.amazon.co.uk/*",
+                "https://music.amazon.de/*",
+                "https://music.amazon.ca/*",
+                "https://music.amazon.fr/*",
+                "https://music.amazon.it/*",
+                "https://music.amazon.es/*",
+                "https://music.amazon.co.jp/*",
+                "https://music.amazon.in/*"
+            ],
             "js": ["amazon_content.js"]
         }
     ],
-
-    "web_accessible_resources" : [
+    "web_accessible_resources": [
         {
-            "resources" : [
+            "resources": [
                 "images/spotify.png",
                 "images/amazon_music.png",
                 "images/apple_music.png", 
@@ -58,7 +74,7 @@
                 "images/transfer.png",
                 "images/extension_icon.png"
             ],
-            "matches" : [
+            "matches": [
                 "https://open.spotify.com/*",
                 "https://music.apple.com/*", 
                 "https://music.youtube.com/*",
@@ -68,17 +84,16 @@
                 "https://music.amazon.ca/*"
             ]
         }
-        
     ],
-    "action" : {
-        "default_icon" : {
-            "16" : "images/extension_icon.png",
-            "24" : "images/extension_icon.png",
-            "32" : "images/extension_icon.png"
+    "action": {
+        "default_icon": {
+            "16": "images/extension_icon.png",
+            "24": "images/extension_icon.png",
+            "32": "images/extension_icon.png"
         },
-        "default_title" : "Playlist Transfers",
-        "default_popup" : "popup.html"        
+        "default_title": "Playlist Transfers",
+        "default_popup": "popup.html"        
     },
-    "manifest_version" : 3
+    "manifest_version": 3
 }
 
